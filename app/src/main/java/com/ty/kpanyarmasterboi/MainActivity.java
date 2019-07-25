@@ -18,11 +18,24 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
+import android.widget.ImageButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    List<iconsicon> mlistdb = new ArrayList<>();
+    RecyclerView rcvwdb;
+    private draweradapter draweradapters;
+    ImageButton imgButton;
+    private View v;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +58,15 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        RecyclerView rcvwdr = findViewById(R.id.recyclerdrawer);
+
+        populateList();
+
+        draweradapters = new draweradapter(MainActivity.this, mlistdb);
+
+        rcvwdr.setAdapter(draweradapters);
+        rcvwdr.setLayoutManager(new LinearLayoutManager(MainActivity.this,RecyclerView.VERTICAL,false));
     }
 
     @Override
@@ -85,7 +107,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+      /*  if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
@@ -97,10 +119,24 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        }
+        } else if (id == R.id.nav_toolss) {
+
+        }*/
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void populateList() {
+        for (int i = 0; i < 6; i++) {
+            iconsicon iconsicons = new iconsicon();
+
+            iconsicons.descicon = "Elesis";
+            iconsicons.icons = R.mipmap.ic_launcher;
+
+            mlistdb.add(iconsicons);
+
+        }
     }
 }
