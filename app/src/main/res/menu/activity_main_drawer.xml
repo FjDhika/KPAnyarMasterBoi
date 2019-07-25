@@ -19,6 +19,11 @@
         <item
             android:id="@+id/nav_tools"
             android:icon="@drawable/ic_menu_manage"
+            android:title="@string/menu_tools" />4
+
+        <item
+            android:id="@+id/nav_toolss"
+            android:icon="@drawable/ic_menu_manage"
             android:title="@string/menu_tools" />
     </group>
 
