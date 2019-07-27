@@ -8,6 +8,12 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <include layout="@layout/activity_maps"/>
+    <!--<include layout="@layout/activity_maps"/>-->
 
+    <FrameLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,12 @@ package com.ty.kpanyarmasterboi;
 
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -18,6 +24,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,18 +36,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
     List<iconsicon> mlistdb = new ArrayList<>();
     RecyclerView rcvwdb;
     private draweradapter draweradapters;
     ImageButton imgButton;
     private View v;
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /**
+        *Toolbar was here
+         */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -51,6 +63,10 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+
+        /**
+        *Drawer was here
+         */
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -59,14 +75,21 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        /**
+         *RecylerView was here
+         */
         RecyclerView rcvwdr = findViewById(R.id.recyclerdrawer);
-
         populateList();
-
         draweradapters = new draweradapter(MainActivity.this, mlistdb);
-
         rcvwdr.setAdapter(draweradapters);
         rcvwdr.setLayoutManager(new LinearLayoutManager(MainActivity.this,RecyclerView.VERTICAL,false));
+
+        /**
+        *Map View was here
+         */
+        MapFragment mapFragment = new MapFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.mainLayout, mapFragment).commit();
     }
 
     @Override
@@ -138,5 +161,16 @@ public class MainActivity extends AppCompatActivity
             mlistdb.add(iconsicons);
 
         }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        LatLng sydney = new LatLng(-8.160562, 114.2771345);
+        mMap.setMinZoomPreference(13);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Kp.Anyar"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
