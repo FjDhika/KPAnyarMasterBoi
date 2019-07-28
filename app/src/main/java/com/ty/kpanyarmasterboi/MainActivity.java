@@ -152,13 +152,31 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void populateList() {
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 2; i++) {
+
             iconsicon iconsicons = new iconsicon();
 
-            iconsicons.descicon = "Elesis";
-            iconsicons.icons = R.mipmap.ic_launcher;
+            switch (i) {
 
-            mlistdb.add(iconsicons);
+
+                case 0 :
+
+                    iconsicons.descicon = "Elesis";
+                    iconsicons.icons = R.mipmap.ic_launcher;
+                    iconsicons.soundmap = R.raw.lagua;
+
+                    mlistdb.add(iconsicons);
+                    break;
+
+                case 1 :
+
+                    iconsicons.descicon = "Elesis";
+                    iconsicons.icons = R.mipmap.ic_launcher;
+                    iconsicons.soundmap = R.raw.lagub;
+
+                    mlistdb.add(iconsicons);
+                    break;
+            }
 
         }
     }
