@@ -7,5 +7,6 @@ public class iconsicon {
     public String descicon;
     public int icons;
     public int soundmap;
+    public MapFragment mapFragment;
 
 }

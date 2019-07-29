@@ -43,7 +43,8 @@ public class MainActivity extends AppCompatActivity
     private draweradapter draweradapters;
     ImageButton imgButton;
     private View v;
-    private GoogleMap mMap;
+    public GoogleMap mMap;
+    public final MapFragment mapFragment = new MapFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,6 @@ public class MainActivity extends AppCompatActivity
         /**
         *Map View was here
          */
-        MapFragment mapFragment = new MapFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.mainLayout, mapFragment).commit();
     }
@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity
         for (int i = 0; i < 2; i++) {
 
             iconsicon iconsicons = new iconsicon();
+            iconsicons.mapFragment = mapFragment;
 
             switch (i) {
 
@@ -183,12 +184,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-8.160562, 114.2771345);
-        mMap.setMinZoomPreference(13);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Kp.Anyar"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }

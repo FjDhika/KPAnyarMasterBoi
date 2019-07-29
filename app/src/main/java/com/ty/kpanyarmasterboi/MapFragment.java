@@ -98,8 +98,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
          * Set map UI
          */
         mMap.setMinZoomPreference(13);
-        mMap.getUiSettings().setAllGesturesEnabled(false);
+        //mMap.getUiSettings().setAllGesturesEnabled(false);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(kpAnyar));
     }
 
+    public void updateMap(double lat, double lng){
+        mMap.clear();
+
+        LatLng latlngs = new LatLng(lat,lng);
+        MarkerOptions options = new MarkerOptions();
+        options.position(latlngs);
+        mMap.addMarker(options).setTitle("baru");
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(latlngs));
+    }
 }

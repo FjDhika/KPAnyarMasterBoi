@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,9 +43,9 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+        public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
 
-            MyHolder myholder = (MyHolder) holder;
+            final MyHolder myholder = (MyHolder) holder;
             miconsicon = mlist.get(position);
 
             myholder.nmicon.setText(miconsicon.descicon);
@@ -58,7 +59,12 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                   mediaPlayer.start();
                 }
             });
-
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    miconsicon.mapFragment.updateMap(-8.099070549011174,115.09654998779297);
+                }
+            });
         }
 
         @Override
