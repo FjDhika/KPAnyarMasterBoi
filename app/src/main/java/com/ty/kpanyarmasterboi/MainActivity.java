@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity
                 case 0 :
 
                     iconsicons.descicon = "Elesis";
-                    iconsicons.icons = R.mipmap.ic_launcher;
+                    iconsicons.icons = R.drawable.aeroplane;
                     iconsicons.soundmap = R.raw.lagua;
 
                     mlistdb.add(iconsicons);
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity
                 case 1 :
 
                     iconsicons.descicon = "Elesis";
-                    iconsicons.icons = R.mipmap.ic_launcher;
+                    iconsicons.icons = R.drawable.anchor;
                     iconsicons.soundmap = R.raw.lagub;
 
                     mlistdb.add(iconsicons);

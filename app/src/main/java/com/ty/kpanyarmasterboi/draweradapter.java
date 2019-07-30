@@ -10,10 +10,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.IOException;
 import java.util.List;
 
 public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
@@ -24,6 +26,8 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private LayoutInflater minflater;
         private iconsicon miconsicon;
         private boolean isplay;
+        MediaPlayer mediaPlayer;
+        int a = 1;
 
         public draweradapter(Context context, List<iconsicon> list) {
             mlist = list;
@@ -46,16 +50,42 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             MyHolder myholder = (MyHolder) holder;
             miconsicon = mlist.get(position);
+            final int soundid = miconsicon.getSoundmap();
 
             myholder.nmicon.setText(miconsicon.descicon);
             myholder.fotoicon.setImageResource(miconsicon.icons);
 
-            myholder.btnicon.setOnClickListener(new View.OnClickListener() {
+            mediaPlayer = MediaPlayer.create(mcontext,soundid);
+
+            myholder.btniconsound.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                  MediaPlayer mediaPlayer = MediaPlayer.create(mcontext, mlist.get(position).soundmap);
-                  mediaPlayer.start();
+                    if (a == 1)
+                    {
+                        mediaPlayer.start();
+                        mediaPlayer.release();
+                        mediaPlayer = MediaPlayer.create(mcontext,soundid);
+                    }
+
+                        if ( mediaPlayer.isPlaying()) {
+
+                            mediaPlayer.release();
+                            mediaPlayer = MediaPlayer.create(mcontext,soundid);
+
+                        }
+                        
+
+                            mediaPlayer.start ();
+
+                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mediaPlayer) {
+
+                            mediaPlayer.release();
+
+                        }
+                    });
                 }
             });
 
@@ -69,15 +99,21 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 class MyHolder extends RecyclerView.ViewHolder {
     ImageView fotoicon;
     TextView nmicon;
-    Button btnicon;
+    Button btniconsound;
 
     public MyHolder(@NonNull View itemView) {
         super(itemView);
 
         nmicon = (TextView) itemView.findViewById(R.id.textdrawer);
         fotoicon = (ImageView) itemView.findViewById(R.id.images);
-        btnicon = itemView.findViewById(R.id.moveto);
+        btniconsound = itemView.findViewById(R.id.playson);
 
     }
 }
+
+public void createsound(int position)
+{
+
+}
+
 }

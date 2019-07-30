@@ -8,4 +8,27 @@ public class iconsicon {
     public int icons;
     public int soundmap;
 
+    public String getDescicon() {
+        return descicon;
+    }
+
+    public void setDescicon(String descicon) {
+        this.descicon = descicon;
+    }
+
+    public int getIcons() {
+        return icons;
+    }
+
+    public void setIcons(int icons) {
+        this.icons = icons;
+    }
+
+    public int getSoundmap() {
+        return soundmap;
+    }
+
+    public void setSoundmap(int soundmap) {
+        this.soundmap = soundmap;
+    }
 }
