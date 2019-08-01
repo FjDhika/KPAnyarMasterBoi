@@ -79,20 +79,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         options.position(kpAnyar).title("Kampung Anyar");
 
         /**
-        *Google map Polygon
-         */
-        PolygonOptions polygonOptions = new PolygonOptions();
-        polygonOptions.addAll(latLngs.getLatLngs());
-        polygonOptions.clickable(false);
-        polygonOptions.strokeWidth(3);
-        polygonOptions.fillColor(0x33FF0000);
-        polygonOptions.strokeColor(Color.RED);
-
-        /**
          * Adding Marker and Polygon
          */
         googleMap.addMarker(options);
-        googleMap.addPolygon(polygonOptions).setStrokePattern(patternItems);
+        drawPolygon();
 
         /**
          * Set map UI
@@ -102,13 +92,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(kpAnyar));
     }
 
-    public void updateMap(double lat, double lng){
+    public void updateMap(double lat, double lng,String nama){
         mMap.clear();
+        drawPolygon();
 
         LatLng latlngs = new LatLng(lat,lng);
         MarkerOptions options = new MarkerOptions();
         options.position(latlngs);
-        mMap.addMarker(options).setTitle("baru");
+        mMap.addMarker(options).setTitle(nama);
+
         mMap.animateCamera(CameraUpdateFactory.newLatLng(latlngs));
+    }
+
+    public void drawPolygon(){
+        PolygonOptions polygonOptions = new PolygonOptions();
+        polygonOptions.addAll(latLngs.getLatLngs());
+        polygonOptions.clickable(false);
+        polygonOptions.strokeWidth(3);
+        polygonOptions.fillColor(0x33FF0000);
+        polygonOptions.strokeColor(Color.RED);
+        mMap.addPolygon(polygonOptions).setStrokePattern(patternItems);
     }
 }

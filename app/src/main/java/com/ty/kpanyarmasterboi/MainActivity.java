@@ -13,12 +13,20 @@ import com.google.android.material.snackbar.Snackbar;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.ty.kpanyarmasterboi.Interface.myCallback;
+import com.ty.kpanyarmasterboi.polygonCoordinat.dataTempat;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -38,7 +46,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
-    List<iconsicon> mlistdb = new ArrayList<>();
     RecyclerView rcvwdb;
     private draweradapter draweradapters;
     ImageButton imgButton;
@@ -46,10 +53,20 @@ public class MainActivity extends AppCompatActivity
     public GoogleMap mMap;
     public final MapFragment mapFragment = new MapFragment();
 
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference placeReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /**
+         * Database References
+         */
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        placeReference = firebaseDatabase.getReference();
 
         /**
         *Toolbar was here
@@ -79,11 +96,15 @@ public class MainActivity extends AppCompatActivity
         /**
          *RecylerView was here
          */
-        RecyclerView rcvwdr = findViewById(R.id.recyclerdrawer);
-        populateList();
-        draweradapters = new draweradapter(MainActivity.this, mlistdb);
-        rcvwdr.setAdapter(draweradapters);
-        rcvwdr.setLayoutManager(new LinearLayoutManager(MainActivity.this,RecyclerView.VERTICAL,false));
+        final RecyclerView rcvwdr = findViewById(R.id.recyclerdrawer);
+        populateList(new myCallback() {
+            @Override
+            public void onCallback(List<iconsicon> value) {
+                draweradapters = new draweradapter(MainActivity.this, value);
+                rcvwdr.setAdapter(draweradapters);
+                rcvwdr.setLayoutManager(new LinearLayoutManager(MainActivity.this,RecyclerView.VERTICAL,false));
+            }
+        });
 
         /**
         *Map View was here
@@ -151,35 +172,30 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void populateList() {
-        for (int i = 0; i < 2; i++) {
+    public void populateList(final myCallback MyCallback) {
+        placeReference.child("places").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    List<iconsicon> mlistdb = new ArrayList<>();
 
-            iconsicon iconsicons = new iconsicon();
-            iconsicons.mapFragment = mapFragment;
+                    for (DataSnapshot tempat:dataSnapshot.getChildren()) {
+                        iconsicon data = tempat.getValue(iconsicon.class);
+                        assert data != null;
+                        data.setUri("https://firebasestorage.googleapis.com/v0/b/reference-unity-247807.appspot.com/o/icons%2Fanchor.png?alt=media&token=f98f28b0-346e-4dbc-98d6-6aff21f86e24");
+                        data.mapFragment = mapFragment;
 
-            switch (i) {
-
-
-                case 0 :
-
-                    iconsicons.descicon = "Elesis";
-                    iconsicons.icons = R.drawable.aeroplane;
-                    iconsicons.soundmap = R.raw.lagua;
-
-                    mlistdb.add(iconsicons);
-                    break;
-
-                case 1 :
-
-                    iconsicons.descicon = "Elesis";
-                    iconsicons.icons = R.drawable.anchor;
-                    iconsicons.soundmap = R.raw.lagub;
-
-                    mlistdb.add(iconsicons);
-                    break;
+                        mlistdb.add(data);
+                    }
+                    MyCallback.onCallback(mlistdb);
+                }
             }
 
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override

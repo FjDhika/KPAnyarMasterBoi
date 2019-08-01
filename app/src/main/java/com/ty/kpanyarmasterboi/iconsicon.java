@@ -4,32 +4,55 @@ import android.media.MediaPlayer;
 
 public class iconsicon {
 
-    public String descicon;
-    public int icons;
-    public int soundmap;
+    private String nama;
+    private int icons;
+    private double lat,lng;
     public MapFragment mapFragment;
+    public String suri;
+    private String uri;
 
-    public String getDescicon() {
-        return descicon;
+    public iconsicon(){
+
+    }
+    public iconsicon(double lat, double lng, String nama, String suri){
+        this.lat = lat;
+        this.lng = lng;
+        this.nama = nama;
+        this.suri = suri;
     }
 
-    public void setDescicon(String descicon) {
-        this.descicon = descicon;
+    public String getUri(){
+        return this.uri;
+    }
+    public void setUri(String uri){
+        this.uri = uri;
     }
 
-    public int getIcons() {
-        return icons;
+    public String getSuri() {
+        return suri;
+    }
+    public void setSuri(String suri) {
+        this.suri = suri;
     }
 
-    public void setIcons(int icons) {
-        this.icons = icons;
+    public double getLng() {
+        return lng;
+    }
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
-    public int getSoundmap() {
-        return soundmap;
+    public double getLat() {
+        return lat;
+    }
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
-    public void setSoundmap(int soundmap) {
-        this.soundmap = soundmap;
+    public String getNama() {
+        return nama;
+    }
+    public void setNama(String nama) {
+        this.nama = nama;
     }
 }

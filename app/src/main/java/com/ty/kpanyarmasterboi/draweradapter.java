@@ -1,9 +1,8 @@
 package com.ty.kpanyarmasterboi;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,19 +14,25 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.util.List;
 
-public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements MediaPlayer.OnPreparedListener
 {
 
         private List<iconsicon> mlist;
         private Context mcontext;
         private LayoutInflater minflater;
         private iconsicon miconsicon;
-        private boolean isplay;
-        MediaPlayer mediaPlayer;
-        int a = 1;
+        private MediaPlayer mediaPlayer = new MediaPlayer();
+        private String osuri="none";
+
 
         public draweradapter(Context context, List<iconsicon> list) {
             mlist = list;
@@ -50,58 +55,95 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             final MyHolder myholder = (MyHolder) holder;
             miconsicon = mlist.get(position);
-            final int soundid = miconsicon.getSoundmap();
+            final String nama = miconsicon.getNama();
+            final double lat = miconsicon.getLat();
+            final double lng = miconsicon.getLng();
+            final String suri = miconsicon.getSuri();
+            final String uri = miconsicon.getUri();
 
-            myholder.nmicon.setText(miconsicon.descicon);
-            myholder.fotoicon.setImageResource(miconsicon.icons);
+            myholder.nmicon.setText(miconsicon.getNama());
+            //myholder.fotoicon.setImageResource(miconsicon.getIcons());
+            Picasso.get().load(uri).into(myholder.fotoicon);
 
-            mediaPlayer = MediaPlayer.create(mcontext,soundid);
-
+            /**
+             * OnClick Handler for play sound btn
+             */
             myholder.btniconsound.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    if (a == 1)
-                    {
-                        mediaPlayer.start();
+                    if(mediaPlayer.isPlaying()) {
+                        Toast.makeText(mcontext,"Released",Toast.LENGTH_SHORT).show();
                         mediaPlayer.release();
-                        mediaPlayer = MediaPlayer.create(mcontext,soundid);
+                        mediaPlayer = new MediaPlayer();
+                    }else if(osuri.equals(suri)){
+                        osuri = "none";
                     }
 
-                        if ( mediaPlayer.isPlaying()) {
-
-                            mediaPlayer.release();
-                            mediaPlayer = MediaPlayer.create(mcontext,soundid);
-
-                        }
-                        
-
-                            mediaPlayer.start ();
+                    if (!osuri.equals(suri)) {
+                        fetchAudioUrlFromFirebase(suri);
+                        osuri = suri;
+                    }
 
                     mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
-                        public void onCompletion(MediaPlayer mediaPlayer) {
-
-                            mediaPlayer.release();
-
+                        public void onCompletion(MediaPlayer mp) {
+                            mp.release();
+                            mediaPlayer = new MediaPlayer();
                         }
                     });
                 }
+
             });
+
+            /**
+             * OnClick Handler for itemView
+             */
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    miconsicon.mapFragment.updateMap(-8.099070549011174,115.09654998779297);
+                    miconsicon.mapFragment.updateMap(lat,lng,nama);
                 }
             });
         }
 
-        @Override
+    /**
+     *  Here is the part where we fethcing audio from firebase to our app
+     * @param suri (stands for Sound uri) a variable that contain path of the song
+     */
+    private void fetchAudioUrlFromFirebase(String suri) {
+            final FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReferenceFromUrl(suri);
+
+            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    try {
+                        String url = uri.toString();
+                        mediaPlayer.setDataSource(url);
+                        // wait for media player to get prepare
+                        mediaPlayer.setOnPreparedListener(draweradapter.this);
+                        mediaPlayer.prepareAsync();
+                    } catch (IOException e) {
+                       Toast.makeText(mcontext,"failed to load sounds",Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+        }
+
+    @Override
         public int getItemCount() {
             return mlist.size();
         }
 
-class MyHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onPrepared(MediaPlayer mediaPlayer) {
+            mediaPlayer.start();
+    }
+
+    class MyHolder extends RecyclerView.ViewHolder {
     ImageView fotoicon;
     TextView nmicon;
     Button btniconsound;
@@ -114,11 +156,6 @@ class MyHolder extends RecyclerView.ViewHolder {
         btniconsound = itemView.findViewById(R.id.playson);
 
     }
-}
-
-public void createsound(int position)
-{
-
 }
 
 }
