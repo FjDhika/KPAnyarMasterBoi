@@ -3,42 +3,37 @@ package com.ty.kpanyarmasterboi;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.Dash;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PatternItem;
-import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.ty.kpanyarmasterboi.polygonCoordinat.KpAnyarPolygon;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 
-/**
+/*
  * A simple {@link Fragment} subclass.
  */
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
-    GoogleMap mMap;
-    KpAnyarPolygon latLngs;
+    private GoogleMap mMap;
+    private KpAnyarPolygon latLngs;
     private static final PatternItem dash = new Dash(20);
     private static final PatternItem gap = new Gap(10);
     private static final List<PatternItem> patternItems = Arrays.asList(dash,gap);
@@ -52,9 +47,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_map, container, false);
 
-        return view;
+        return inflater.inflate(R.layout.fragment_map, container, false);
     }
 
     @Override
@@ -71,20 +65,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        /**
+        /*
         *Google map Marker
          */
         LatLng kpAnyar = new LatLng(-8.160562, 114.2771345);
         MarkerOptions options = new MarkerOptions();
         options.position(kpAnyar).title("Kampung Anyar");
 
-        /**
+        /*
          * Adding Marker and Polygon
          */
         googleMap.addMarker(options);
         drawPolygon();
 
-        /**
+        /*
          * Set map UI
          */
         mMap.setMinZoomPreference(13);
@@ -92,7 +86,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(kpAnyar));
     }
 
-    public void updateMap(double lat, double lng,String nama){
+    void updateMap(double lat, double lng, String nama){
         mMap.clear();
         drawPolygon();
 
@@ -104,7 +98,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMap.animateCamera(CameraUpdateFactory.newLatLng(latlngs));
     }
 
-    public void drawPolygon(){
+    private void drawPolygon(){
         PolygonOptions polygonOptions = new PolygonOptions();
         polygonOptions.addAll(latLngs.getLatLngs());
         polygonOptions.clickable(false);

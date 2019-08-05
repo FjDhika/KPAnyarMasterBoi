@@ -1,58 +1,44 @@
 package com.ty.kpanyarmasterboi;
 
-import android.media.MediaPlayer;
-
 public class iconsicon {
 
     private String nama;
-    private int icons;
     private double lat,lng;
-    public MapFragment mapFragment;
-    public String suri;
+    MapFragment mapFragment;
+    private String suri;
     private String uri;
 
-    public iconsicon(){
 
-    }
-    public iconsicon(double lat, double lng, String nama, String suri){
+    public iconsicon(String nama, double lat, double lng, MapFragment mapFragment, String suri, String uri) {
+        this.nama = nama;
         this.lat = lat;
         this.lng = lng;
-        this.nama = nama;
+        this.mapFragment = mapFragment;
         this.suri = suri;
-    }
-
-    public String getUri(){
-        return this.uri;
-    }
-    public void setUri(String uri){
         this.uri = uri;
     }
+    public iconsicon(){}
 
-    public String getSuri() {
+    String getUri(){
+        return this.uri;
+    }
+    void setUri(){
+        this.uri = "https://firebasestorage.googleapis.com/v0/b/reference-unity-247807.appspot.com/o/icons%2Fanchor.png?alt=media&token=f98f28b0-346e-4dbc-98d6-6aff21f86e24";
+    }
+
+    String getSuri() {
         return suri;
     }
-    public void setSuri(String suri) {
-        this.suri = suri;
-    }
 
-    public double getLng() {
+    double getLng() {
         return lng;
     }
-    public void setLng(double lng) {
-        this.lng = lng;
-    }
 
-    public double getLat() {
+    double getLat() {
         return lat;
     }
-    public void setLat(double lat) {
-        this.lat = lat;
-    }
 
-    public String getNama() {
+    String getNama() {
         return nama;
-    }
-    public void setNama(String nama) {
-        this.nama = nama;
     }
 }

@@ -1,24 +1,21 @@
 package com.ty.kpanyarmasterboi;
 
 import android.os.Bundle;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import android.view.View;
-
-import androidx.annotation.NonNull;
-import androidx.core.view.GravityCompat;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-
+import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,19 +23,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.ty.kpanyarmasterboi.Interface.myCallback;
-import com.ty.kpanyarmasterboi.polygonCoordinat.dataTempat;
-
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.Menu;
-import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,14 +30,10 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
-    RecyclerView rcvwdb;
     private draweradapter draweradapters;
-    ImageButton imgButton;
-    private View v;
-    public GoogleMap mMap;
+    //private View v;
     public final MapFragment mapFragment = new MapFragment();
 
-    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference placeReference;
 
     @Override
@@ -61,16 +41,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /**
-         * Database References
-         */
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         placeReference = firebaseDatabase.getReference();
 
-        /**
-        *Toolbar was here
-         */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
        /*FloatingActionButton fab = findViewById(R.id.fab);
@@ -82,7 +55,7 @@ public class MainActivity extends AppCompatActivity
             }
         });*/
 
-        /**
+        /*
         *Drawer was here
          */
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -93,7 +66,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        /**
+        /*
          *RecylerView was here
          */
         final RecyclerView rcvwdr = findViewById(R.id.recyclerdrawer);
@@ -106,7 +79,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        /**
+        /*
         *Map View was here
          */
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -145,7 +118,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -182,7 +154,7 @@ public class MainActivity extends AppCompatActivity
                     for (DataSnapshot tempat:dataSnapshot.getChildren()) {
                         iconsicon data = tempat.getValue(iconsicon.class);
                         assert data != null;
-                        data.setUri("https://firebasestorage.googleapis.com/v0/b/reference-unity-247807.appspot.com/o/icons%2Fanchor.png?alt=media&token=f98f28b0-346e-4dbc-98d6-6aff21f86e24");
+                        data.setUri();
                         data.mapFragment = mapFragment;
 
                         mlistdb.add(data);

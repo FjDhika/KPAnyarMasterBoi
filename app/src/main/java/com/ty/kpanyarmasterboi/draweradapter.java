@@ -1,6 +1,7 @@
 package com.ty.kpanyarmasterboi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -14,7 +15,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.auth.api.signin.internal.Storage;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -34,7 +34,7 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private String osuri="none";
 
 
-        public draweradapter(Context context, List<iconsicon> list) {
+        draweradapter(Context context, List<iconsicon> list) {
             mlist = list;
             mcontext = context;
             minflater = LayoutInflater.from(context);
@@ -65,14 +65,17 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             //myholder.fotoicon.setImageResource(miconsicon.getIcons());
             Picasso.get().load(uri).into(myholder.fotoicon);
 
-            /**
+            /*
              * OnClick Handler for play sound btn
              */
             myholder.btniconsound.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    if(mediaPlayer.isPlaying()) {
+                    Intent intent = new Intent(mcontext, popupwindow.class);
+                    mcontext.startActivity(intent);
+
+                  /*  if(mediaPlayer.isPlaying()) {
                         Toast.makeText(mcontext,"Released",Toast.LENGTH_SHORT).show();
                         mediaPlayer.release();
                         mediaPlayer = new MediaPlayer();
@@ -91,20 +94,20 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                             mp.release();
                             mediaPlayer = new MediaPlayer();
                         }
-                    });
+                    });*/
                 }
 
             });
 
-            /**
+            /*
              * OnClick Handler for itemView
              */
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+           /* holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     miconsicon.mapFragment.updateMap(lat,lng,nama);
                 }
-            });
+            });*/
         }
 
     /**
@@ -148,11 +151,11 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     TextView nmicon;
     Button btniconsound;
 
-    public MyHolder(@NonNull View itemView) {
+    MyHolder(@NonNull View itemView) {
         super(itemView);
 
-        nmicon = (TextView) itemView.findViewById(R.id.textdrawer);
-        fotoicon = (ImageView) itemView.findViewById(R.id.images);
+        nmicon = itemView.findViewById(R.id.textdrawer);
+        fotoicon = itemView.findViewById(R.id.images);
         btniconsound = itemView.findViewById(R.id.playson);
 
     }
