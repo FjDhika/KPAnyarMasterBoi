@@ -65,7 +65,7 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             //myholder.fotoicon.setImageResource(miconsicon.getIcons());
             Picasso.get().load(uri).into(myholder.fotoicon);
 
-            /*
+            /**
              * OnClick Handler for play sound btn
              */
             myholder.btniconsound.setOnClickListener(new View.OnClickListener() {
@@ -99,15 +99,15 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             });
 
-            /*
+            /**
              * OnClick Handler for itemView
              */
-           /* holder.itemView.setOnClickListener(new View.OnClickListener() {
+           holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     miconsicon.mapFragment.updateMap(lat,lng,nama);
                 }
-            });*/
+            });
         }
 
     /**

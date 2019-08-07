@@ -154,7 +154,6 @@ public class MainActivity extends AppCompatActivity
                     for (DataSnapshot tempat:dataSnapshot.getChildren()) {
                         iconsicon data = tempat.getValue(iconsicon.class);
                         assert data != null;
-                        data.setUri();
                         data.mapFragment = mapFragment;
 
                         mlistdb.add(data);
