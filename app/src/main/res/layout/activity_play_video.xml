@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".popupwindow">
+    tools:context=".PlayVideoActivity"
+    android:layout_gravity="center">
 
     <VideoView
-        android:id="@+id/videoview"
+        android:id="@+id/VideoPlayer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:foregroundGravity="center"/>
+        android:layout_marginTop="0dp"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

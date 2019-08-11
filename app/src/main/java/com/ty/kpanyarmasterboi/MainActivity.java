@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity
         /*
         *Drawer was here
          */
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity
         populateList(new myCallback() {
             @Override
             public void onCallback(List<iconsicon> value) {
-                draweradapters = new draweradapter(MainActivity.this, value);
+                draweradapters = new draweradapter(MainActivity.this, value,drawer);
                 rcvwdr.setAdapter(draweradapters);
                 rcvwdr.setLayoutManager(new LinearLayoutManager(MainActivity.this,RecyclerView.VERTICAL,false));
             }
@@ -114,7 +114,6 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }*/
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -138,9 +137,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_toolss) {
 
         }*/
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 

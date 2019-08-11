@@ -2,6 +2,7 @@ package com.ty.kpanyarmasterboi;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,12 +33,15 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         private Context mcontext;
         private LayoutInflater minflater;
         private iconsicon miconsicon;
+        private DrawerLayout mdrawer;
         private MediaPlayer mediaPlayer = new MediaPlayer();
-        private String osuri="none";
+        private int selected_index = -1;
+        //private String osuri="none";
 
 
-        draweradapter(Context context, List<iconsicon> list) {
+        draweradapter(Context context, List<iconsicon> list, DrawerLayout drawer) {
             mlist = list;
+            mdrawer = drawer;
             mcontext = context;
             minflater = LayoutInflater.from(context);
         }
@@ -61,9 +67,10 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             final String suri = miconsicon.getSuri();
             final String uri = miconsicon.getUri();
 
+
             myholder.nmicon.setText(miconsicon.getNama());
             //myholder.fotoicon.setImageResource(miconsicon.getIcons());
-            Picasso.get().load(uri).into(myholder.fotoicon);
+            Picasso.get().load(uri).resize(35,35).into(myholder.fotoicon);
 
             /**
              * OnClick Handler for play sound btn
@@ -72,10 +79,11 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 @Override
                 public void onClick(View view) {
 
-                    Intent intent = new Intent(mcontext, popupwindow.class);
+                    Intent intent = new Intent(mcontext, PlayVideoActivity.class);
+                    intent.putExtra("VideoUri",suri);
                     mcontext.startActivity(intent);
 
-                  /*  if(mediaPlayer.isPlaying()) {
+                    /*if(mediaPlayer.isPlaying()) {
                         Toast.makeText(mcontext,"Released",Toast.LENGTH_SHORT).show();
                         mediaPlayer.release();
                         mediaPlayer = new MediaPlayer();
@@ -105,9 +113,23 @@ public class draweradapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    mdrawer.closeDrawer(GravityCompat.START);
                     miconsicon.mapFragment.updateMap(lat,lng,nama);
+                    selected_index = position;
+                    notifyDataSetChanged();
                 }
             });
+
+           if(selected_index == position){
+               holder.itemView.setBackgroundColor(Color.parseColor("#00574B"));
+               myholder.nmicon.setTextColor(Color.parseColor("#ffffff"));
+               myholder.btniconsound.setVisibility(View.VISIBLE);
+           }else{
+               holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
+               myholder.nmicon.setTextColor(Color.parseColor("#000000"));
+               myholder.btniconsound.setVisibility(View.INVISIBLE);
+           }
+
         }
 
     /**

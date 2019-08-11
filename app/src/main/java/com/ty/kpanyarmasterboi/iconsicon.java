@@ -10,7 +10,7 @@ public class iconsicon {
 
     public iconsicon(){}
 
-    public iconsicon(String nama, double lat, double lng, String suri, String uri) {
+    public iconsicon(double lat, double lng, String nama, String suri, String uri) {
         this.nama = nama;
         this.lat = lat;
         this.lng = lng;
@@ -18,23 +18,23 @@ public class iconsicon {
         this.uri = uri;
     }
 
-    String getUri(){
+    public String getUri(){
         return this.uri;
     }
 
-    String getSuri() {
+    public String getSuri() {
         return suri;
     }
 
-    double getLng() {
+    public double getLng() {
         return lng;
     }
 
-    double getLat() {
+    public double getLat() {
         return lat;
     }
 
-    String getNama() {
+    public String getNama() {
         return nama;
     }
 
